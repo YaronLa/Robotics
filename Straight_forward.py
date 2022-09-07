@@ -35,7 +35,7 @@ def one_meter(leftSpeed, rightSpeed, time): #Getting it to run straight by adjus
     
 
 
-#one_meter(leftSpeed, rightSpeed, time)
+one_meter(leftSpeed, rightSpeed, time)
 
 
     
