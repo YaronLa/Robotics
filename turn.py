@@ -40,7 +40,7 @@ def turn_ninety(leftSpeed, rightSpeed, turn_direc = "left"): #it will spin clock
     
 
 
-turn_ninety(leftSpeed, rightSpeed, time, turn_direc = "left")  
+turn_ninety(leftSpeed, rightSpeed, turn_direc = "left")  
 
     
 print(arlo.go_diff(0, 0, 1, 1))  
