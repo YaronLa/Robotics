@@ -14,7 +14,7 @@ arlo = robot.Robot()
 sleep(1)
 
 
-leftSpeed, rightSpeed = 100, 100    #Speed between [40;127],
+leftSpeed, rightSpeed = 70, 70    #Speed between [40;127],
 t                        = 8         #time is in seconds
 
 
@@ -23,7 +23,7 @@ def one_meter(leftSpeed, rightSpeed, t): #Getting it to run straight by adjustin
     start_time = time.perf_counter()
     print(arlo.go_diff(leftSpeed, rightSpeed, 1, 1))
     while True:
-        if (int(time.perf_counter()) - int(start_time)) > t):
+        if (float(time.perf_counter()) - float(start_time)) > 4.0):
             print(arlo.stop())
             break
 
