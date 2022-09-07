@@ -14,7 +14,7 @@ arlo = robot.Robot()
 sleep(1)
 
 
-leftSpeed, rightSpeed, time = 64, 64    #Speed between [40;127],
+leftSpeed, rightSpeed = 64, 64    #Speed between [40;127],
 time                        = 5         #time is in seconds
 
 
