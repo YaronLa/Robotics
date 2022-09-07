@@ -17,13 +17,13 @@ arlo = robot.Robot()
 sleep(1)
 
 
-leftSpeed, rightSpeed= 64, 64    #Speed between [40;127],
+leftSpeed, rightSpeed= 70, 70    #Speed between [40;127],
 
 def one_meter(leftSpeed, rightSpeed): #Getting it to run straight by adjusting l,r-speed and time
     start_time = time.perf_counter()
     print(arlo.go_diff(leftSpeed, rightSpeed, 1, 1))
     while True:
-        if (time.perf_counter() - start_time > 2.35):
+        if (time.perf_counter() - start_time > 2.235):
             print(arlo.stop())
             break
 
@@ -35,7 +35,7 @@ def turn_ninety(leftSpeed, rightSpeed, turn_direc = "left"): #it will spin clock
     start_time = time.perf_counter()
     print(arlo.go_diff(leftSpeed, rightSpeed, spin_lw, spin_lw))
     while True:
-        if (time.perf_counter() - start_time > 0.655):
+        if (time.perf_counter() - start_time > 0.67):
             print(arlo.stop())
             break
 
@@ -47,8 +47,8 @@ def drive_in_square(leftSpeed, rightSpeed,
     for i in range(n_times):
         one_meter(leftSpeed, rightSpeed)
         sleep(2.35+buffer_time)
-        turn_ninety(leftSpeed, rightSpeed, turn_direc = "right")
-        sleep(0.65+buffer_time)
+        turn_ninety(leftSpeed, rightSpeed, turn_direc = "left")
+        sleep(0.67+buffer_time)
     
     
 
