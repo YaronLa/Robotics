@@ -23,7 +23,7 @@ def one_meter(leftSpeed, rightSpeed, t): #Getting it to run straight by adjustin
     start_time = time.perf_counter()
     print(arlo.go_diff(leftSpeed, rightSpeed, 1, 1))
     while True:
-        if (time.perf_counter() - start_time > t):
+        if (int(time.perf_counter() - start_time) > t):
             print(arlo.stop())
             break
 
