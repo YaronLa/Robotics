@@ -15,7 +15,6 @@ sleep(1)
 
 
 leftSpeed, rightSpeed, time = 70, 70    #Speed between [40;127],
-time                        = 5         #time is in seconds
 
 
 
