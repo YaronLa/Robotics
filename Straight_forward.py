@@ -15,15 +15,15 @@ sleep(1)
 
 
 leftSpeed, rightSpeed = 64, 64    #Speed between [40;127],
-time                        = 5         #time is in seconds
+t                        = 5         #time is in seconds
 
 
 """Helping to find time it takes to drive one meter"""
-def one_meter(leftSpeed, rightSpeed, time): #Getting it to run straight by adjusting l,r-speed and time
+def one_meter(leftSpeed, rightSpeed, t): #Getting it to run straight by adjusting l,r-speed and time
     start_time = time.perf_counter()
     print(arlo.go_diff(leftSpeed, rightSpeed, 1, 1))
     while True:
-        if (time.perf_counter() - start_time > time):
+        if (time.perf_counter() - start_time > t):
             print(arlo.stop())
             break
 
