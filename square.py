@@ -28,22 +28,23 @@ def one_meter(leftSpeed, rightSpeed): #Getting it to run straight by adjusting l
             break
 
 def turn_ninety(leftSpeed, rightSpeed, turn_direc = "left"): #it will spin clockwise if turn_direc is set to anything else than left. 
-    spin_lw, spin_lw = 1 , 0    #Choose spin direction
+    spin_lw, spin_rw = 1 , 0    #Choose spin direction
     if turn_direc == "left":
-        spin_lw, spin_lw = 0 , 1
+        spin_lw, spin_rw = 0 , 1
         
     start_time = time.perf_counter()
-    print(arlo.go_diff(leftSpeed, rightSpeed, spin_lw, spin_lw))
+    print(arlo.go_diff(leftSpeed, rightSpeed, spin_lw, spin_rw))
     while True:
         if (time.perf_counter() - start_time > 0.67):
             print(arlo.stop())
             break
 
 
+
 def drive_in_square(leftSpeed, rightSpeed,  
-                    n_times = 3):
+                    n_times = 4):
     
-    buffer_time = 0.2
+    buffer_time = 1.0
     for i in range(n_times):
         one_meter(leftSpeed, rightSpeed)
         sleep(2.35+buffer_time)
