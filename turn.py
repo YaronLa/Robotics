@@ -29,7 +29,7 @@ def turn_ninety(leftSpeed, rightSpeed, turn_direc = "left"): #it will spin clock
     start_time = time.perf_counter()
     print(arlo.go_diff(leftSpeed, rightSpeed, spin_lw, spin_rw))
     while True:
-        if (time.perf_counter() - start_time > 5.0):
+        if (time.perf_counter() - start_time > 0.67):
             print(arlo.stop())
             break
 
