@@ -14,7 +14,7 @@ arlo = robot.Robot()
 sleep(1)
 
 
-leftSpeed, rightSpeed, time = 64, 64    #Speed between [40;127],
+leftSpeed, rightSpeed, time = 70, 70    #Speed between [40;127],
 time                        = 5         #time is in seconds
 
 
@@ -22,15 +22,15 @@ time                        = 5         #time is in seconds
 
 
 """Helping to find time it takes to turn 90 degrees"""
-def turn_ninety(leftSpeed, rightSpeed, time, turn_direc = "left"): #it will spin clockwise if turn_direc is set to anything else than left. 
-    spin_lw, spin_lw = 1 , 0    #Choose spin direction
+def turn_ninety(leftSpeed, rightSpeed, turn_direc = "left"): #it will spin clockwise if turn_direc is set to anything else than left. 
+    spin_lw, spin_rw = 1 , 0    #Choose spin direction
     if turn_direc == "left":
-        spin_lw, spin_lw = 0 , 1
+        spin_lw, spin_rw = 0 , 1
         
     start_time = time.perf_counter()
-    print(arlo.go_diff(leftSpeed, rightSpeed, spin_lw, spin_lw))
+    print(arlo.go_diff(leftSpeed, rightSpeed, spin_lw, spin_rw))
     while True:
-        if (time.perf_counter() - start_time > time):
+        if (time.perf_counter() - start_time > 5.0):
             print(arlo.stop())
             break
 
@@ -40,7 +40,7 @@ def turn_ninety(leftSpeed, rightSpeed, time, turn_direc = "left"): #it will spin
     
 
 
-#turn_ninety(leftSpeed, rightSpeed, time, turn_direc = "left")  
+turn_ninety(leftSpeed, rightSpeed, time, turn_direc = "left")  
 
     
 print(arlo.go_diff(0, 0, 1, 1))  
