@@ -50,15 +50,14 @@ def self_drive(leftSpeed, rightSpeed, t, safety_dist = 200): #Getting it to run 
             print(arlo.stop())
             break
         
-        if int(time.perf_counter()) % 5 == 1:
-            if (arlo.read_front_ping_sensor() >= safety_dist 
-                and arlo.read_left_ping_sensor() >= safety_dist 
-                and arlo.read_right_ping_sensor() >= safety_dist):
-                
-                arlo.stop()
-                sleep(0.5)
-                scan()
-                arlo.go_diff(leftSpeed, rightSpeed, 1, 1)
+        if (arlo.read_front_ping_sensor() >= safety_dist 
+            and arlo.read_left_ping_sensor() >= safety_dist
+            and arlo.read_right_ping_sensor() >= safety_dist):
+              
+            arlo.stop()
+            sleep(0.5)
+            scan()
+            arlo.go_diff(leftSpeed, rightSpeed, 1, 1)
                 
                 
         
