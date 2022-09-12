@@ -30,7 +30,7 @@ def NOT(a):
     return binary
 
 
-def scan(safety_dist = 20):
+def scan(safety_dist = 200):
     turn_direc = random.randint(0, 1)
     while True:
         arlo.go_diff(40, 40, turn_direc, NOT(turn_direc))
