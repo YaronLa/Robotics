@@ -43,7 +43,7 @@ def scan(safety_dist = 250):
     else:
         if arlo.read_left_ping_sensor() > arlo.read_right_ping_sensor():
             while True: 
-                arlo.go_diff(40, 40, 1, 0)
+                arlo.go_diff(40, 40, 0, 1)
                 if (arlo.read_front_ping_sensor() >= safety_dist+5 
                     and arlo.read_left_ping_sensor() >= safety_dist+5 
                     and arlo.read_right_ping_sensor() >= safety_dist+5):
@@ -51,7 +51,7 @@ def scan(safety_dist = 250):
                     break    
         else:
             while True:
-                arlo.go_diff(40, 40, 0, 1)
+                arlo.go_diff(40, 40, 1, 0)
                 if (arlo.read_front_ping_sensor() >= safety_dist+5 
                     and arlo.read_left_ping_sensor() >= safety_dist+5 
                     and arlo.read_right_ping_sensor() >= safety_dist+5):
