@@ -31,16 +31,33 @@ def NOT(a):
 
 
 def scan(safety_dist = 200):
-    turn_direc = 1 #random.randint(0, 1)
-    while True:
-        arlo.go_diff(40, 40, turn_direc, NOT(turn_direc))
-        if (arlo.read_front_ping_sensor() >= safety_dist+5 
-            and arlo.read_left_ping_sensor() >= safety_dist+5 
-            and arlo.read_right_ping_sensor() >= safety_dist+5):
-            print(arlo.stop())
-            break    
-
-
+    if arlo.read_front_ping_sensor() <= safety_dist:
+        turn_direc = random.randint(0, 1)
+        while True:
+            arlo.go_diff(40, 40, turn_direc, NOT(turn_direc))
+            if (arlo.read_front_ping_sensor() >= safety_dist+5 
+                and arlo.read_left_ping_sensor() >= safety_dist+5 
+                and arlo.read_right_ping_sensor() >= safety_dist+5):
+                print(arlo.stop())
+                break    
+    else:
+        if arlo.read_left_ping_sensor() > arlo.read_right_ping_sensor():
+            while True: 
+                arlo.go_diff(40, 40, 1, 0)
+                if (arlo.read_front_ping_sensor() >= safety_dist+5 
+                    and arlo.read_left_ping_sensor() >= safety_dist+5 
+                    and arlo.read_right_ping_sensor() >= safety_dist+5):
+                    print(arlo.stop())
+                    break    
+        else:
+            while True:
+                arlo.go_diff(40, 40, 0, 1)
+                if (arlo.read_front_ping_sensor() >= safety_dist+5 
+                    and arlo.read_left_ping_sensor() >= safety_dist+5 
+                    and arlo.read_right_ping_sensor() >= safety_dist+5):
+                    print(arlo.stop())
+                    break    
+            
 def self_drive(leftSpeed, rightSpeed, t, safety_dist = 200): #Getting it to run straight by adjusting l,r-speed >
     start_time = time.perf_counter()
 
@@ -50,7 +67,6 @@ def self_drive(leftSpeed, rightSpeed, t, safety_dist = 200): #Getting it to run 
             print(arlo.stop())
             break
         
-        print("Front: "arlo.read_front_ping_sensor(), "Left: " arlo.read_left_ping_sensor(), "Right: " arlo.read_right_ping_sensor())
         if (arlo.read_front_ping_sensor() <= safety_dist 
             or arlo.read_left_ping_sensor() <= safety_dist
             or arlo.read_right_ping_sensor() <= safety_dist):
