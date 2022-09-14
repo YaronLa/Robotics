@@ -18,7 +18,7 @@ sleep(1)
 
 leftSpeed, rightSpeed = 60, 60    #Speed between [40;127],
 t = 30.0
-safety_dist = 200
+safety_dist = 250
 
 
 def NOT(a):
@@ -30,7 +30,7 @@ def NOT(a):
     return binary
 
 
-def scan(safety_dist = 200):
+def scan(safety_dist = 250):
     if arlo.read_front_ping_sensor() <= safety_dist:
         turn_direc = random.randint(0, 1)
         while True:
@@ -58,7 +58,7 @@ def scan(safety_dist = 200):
                     print(arlo.stop())
                     break    
             
-def self_drive(leftSpeed, rightSpeed, t, safety_dist = 200): #Getting it to run straight by adjusting l,r-speed >
+def self_drive(leftSpeed, rightSpeed, t, safety_dist = 250): #Getting it to run straight by adjusting l,r-speed >
     start_time = time.perf_counter()
 
     arlo.go_diff(leftSpeed, rightSpeed, 1, 1)
