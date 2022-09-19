@@ -7,11 +7,25 @@ import cv2.aruco
 import numpy as np
 
 print("OpenCV version = " + cv2.__version__)
+def gstreamer_pipeline(capture_width=1024, capture_height=720, framerate=30):
+    """Utility function for setting parameters for the gstreamer camera pipeline"""
+    return (
+        "libcamerasrc !"
+        "video/x-raw, width=(int)%d, height=(int)%d, framerate=(fraction)%d/1 ! "
+        "videoconvert ! "
+        "appsink"
+        % (
+            capture_width,
+            capture_height,
+            framerate,
+        )
+    )
+
+
+print("OpenCV version = " + cv2.__version__)
 
 # Open a camera device for capturing
-cam = cv2.VideoCapture(0)
-
-
+cam = cv2.VideoCapture(gstreamer_pipeline(), apiPreference=cv2.CAP_GSTREAMER)
 if not cam.isOpened(): # Error
     print("Could not open camera")
     exit(-1)
@@ -27,7 +41,7 @@ arucoParams = cv2.aruco.DetectorParameters_create()
 #	parameters=arucoParams)
 dict = cv2.aruco.getPredefinedDictionary(cv2.aruco.DICT_6X6_250)
 
-camera_matrix = np.array([ 943, 0.00000000,500,0,943,395,0,0,1]).reshape(3,3)
+camera_matrix = np.array([ 1024/2, 0.00000000,500,0,1024/2,395,0,0,1]).reshape(3,3)
 dist_coeffs = np.array([0.00000000,0.00000000,0.00000000,0.00000000,0.00000000]).reshape(5,1)
 markerLength = 150
 
