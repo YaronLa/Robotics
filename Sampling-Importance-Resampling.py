@@ -1,8 +1,5 @@
-# -*- coding: utf-8 -*-
 """
 Created on Tue Sep 13 13:45:28 2022
-
-@author: flemm
 """
 
 import numpy as np
@@ -30,7 +27,6 @@ def p(x):
 def initproposal(k):
     poses = np.random.uniform(0,15, k)
     return np.array(poses)
-
 
 def calcWeight(poses):
     weights = p(poses)/uniform()
