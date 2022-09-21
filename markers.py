@@ -8,6 +8,8 @@ import robot
 import numpy as np
 
 arlo = robot.Robot()
+ez = np.array([0,0,1])
+ex = np.array([1,0,0])
 
 print("OpenCV version = " + cv2.__version__)
 def gstreamer_pipeline(capture_width=1024, capture_height=720, framerate=30):
