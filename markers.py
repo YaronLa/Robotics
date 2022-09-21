@@ -44,7 +44,7 @@ arucoParams = cv2.aruco.DetectorParameters_create()
 #	parameters=arucoParams)
 dict = cv2.aruco.getPredefinedDictionary(cv2.aruco.DICT_6X6_250)
 
-camera_matrix = np.array([ 1024/2, 0.0,500, 0, 1024/2, 395, 0, 0, 1]).reshape(3,3)
+camera_matrix = np.array([ 1651, 0.0,500, 0, 1651, 395, 0, 0, 1]).reshape(3,3)
 dist_coeffs = np.array([0.0, 0.0, 0.0, 0.0, 0.0]).reshape(5,1)
 markerLength = 150
 
