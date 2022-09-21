@@ -3,7 +3,7 @@ import time
 from time import sleep
 
 
-arlo = robot.Robot()
+#arlo = robot.Robot()
 sleep(1)
 
 
