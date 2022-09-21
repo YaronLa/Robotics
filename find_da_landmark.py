@@ -56,7 +56,7 @@ while cv2.waitKey(4) == -1: # Wait for a key pressed event
     corners, ids, rejected = cv2.aruco.detectMarkers(frameReference, dict)
     cv2.aruco.drawDetectedMarkers(frameReference,corners)
     print(ids)
-    cv2.imshow("billede",frameReference)
+    #cv2.imshow("billede",frameReference)
     if corners: 
         arlo.stop()
         #print(dist - arlo.read_front_ping_sensor())
