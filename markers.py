@@ -3,8 +3,11 @@
 
 import cv2 # Import the OpenCV library
 import cv2.aruco
-
+from time import sleep
+import robot
 import numpy as np
+
+arlo = robot.Robot()
 
 print("OpenCV version = " + cv2.__version__)
 def gstreamer_pipeline(capture_width=1024, capture_height=720, framerate=30):
@@ -41,8 +44,8 @@ arucoParams = cv2.aruco.DetectorParameters_create()
 #	parameters=arucoParams)
 dict = cv2.aruco.getPredefinedDictionary(cv2.aruco.DICT_6X6_250)
 
-camera_matrix = np.array([ 1024/2, 0.00000000,500,0,1024/2,395,0,0,1]).reshape(3,3)
-dist_coeffs = np.array([0.00000000,0.00000000,0.00000000,0.00000000,0.00000000]).reshape(5,1)
+camera_matrix = np.array([ 1024/2, 0.0,500, 0, 1024/2, 395, 0, 0, 1]).reshape(3,3)
+dist_coeffs = np.array([0.0, 0.0, 0.0, 0.0, 0.0]).reshape(5,1)
 markerLength = 150
 
 while cv2.waitKey(4) == -1: # Wait for a key pressed event
