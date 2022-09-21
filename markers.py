@@ -65,11 +65,16 @@ while cv2.waitKey(4) == -1: # Wait for a key pressed event
     print(ids)
     cv2.imshow("billede",frameReference)
     if corners: 
-        rvec, tvec, _ = cv2.aruco.estimatePoseSingleMarkers(corners, markerLength, camera_matrix, dist_coeffs)
-        dist = np.linalg.norm(rvec-tvec)
-
-        print(dist - arlo.read_front_ping_sensor())
+        #print(dist - arlo.read_front_ping_sensor())
         sleep(1)
+        rvec, tvec, _ = cv2.aruco.estimatePoseSingleMarkers(corners, markerLength, camera_matrix, dist_coeffs)
+        tvec = tvec.reshape((3,))
+        dist = np.linalg.norm(tvec)
+        theta = np.arccos(np.dot((tvec/dist),ez))
+        signfunc = np.sign(np.dot(tvec,ex))
+        ang_deg = signfunc * np.rad2deg(theta)
+        print(ang_deg)
+
 # Finished successfully
 
 
