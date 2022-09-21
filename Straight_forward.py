@@ -27,7 +27,7 @@ def meters(m, leftSpeed = 70, rightSpeed = 70):
     while True:
         if ((float(time.perf_counter()) - float(start_time)) > 2.235 * 0.5 * float(m) ):
             print(arlo.stop())
-            break)
+            break
 
 
 
