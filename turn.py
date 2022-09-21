@@ -35,11 +35,11 @@ def turn_ninety(leftSpeed, rightSpeed, turn_direc = "left"): #it will spin clock
 
 
 
-def turn_degrees(degrees, leftSpeed = leftSpeed , rightSpeed= rightSpeed, turn_direc = "left"): #it will spin clockwise if turn>
+def turn_degrees(degrees, sign, leftSpeed = leftSpeed , rightSpeed= rightSpeed, turn_direc = "left"): #it will spin clockwise if turn>
     scalar = degrees/ 90
     
     spin_lw, spin_rw = 1 , 0    #Choose spin direction
-    if turn_direc == "left":
+    if sign == -1:
         spin_lw, spin_rw = 0 , 1
 
     start_time = time.perf_counter()
