@@ -40,7 +40,7 @@ def meters(m, leftSpeed = 70, rightSpeed = 70):
 
 
 
-print(arlo.go_diff(0, 0, 1, 1))
+#print(arlo.go_diff(0, 0, 1, 1))
 
 
 
@@ -51,12 +51,12 @@ print(arlo.go_diff(0, 0, 1, 1))
     
 
 
-one_meter(leftSpeed, rightSpeed, time)
+#one_meter(leftSpeed, rightSpeed, time)
 
 
     
     
-print(arlo.go_diff(0, 0, 1, 1))  
+#print(arlo.go_diff(0, 0, 1, 1))  
     
     
 
