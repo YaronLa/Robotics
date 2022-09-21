@@ -30,4 +30,26 @@ def turn_ninety(leftSpeed, rightSpeed, turn_direc = "left"): #it will spin clock
             print(arlo.stop())
             break
 
-turn_ninety(leftSpeed, rightSpeed)
+#turn_ninety(leftSpeed, rightSpeed)
+
+
+
+
+def turn_degrees(degrees, leftSpeed = leftSpeed , rightSpeed= rightSpeed, turn_direc = "left"): #it will spin clockwise if turn>
+    scalar = degrees/ 90
+    
+    spin_lw, spin_rw = 1 , 0    #Choose spin direction
+    if turn_direc == "left":
+        spin_lw, spin_rw = 0 , 1
+
+    start_time = time.perf_counter()
+    print(arlo.go_diff(leftSpeed, rightSpeed, spin_lw, spin_rw))
+    while True:
+        if (time.perf_counter() - start_time > 0.675*scalar):
+            print(arlo.stop())
+            break
+
+#turn_degrees(180)
+
+
+
