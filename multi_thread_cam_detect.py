@@ -81,8 +81,8 @@ WIN_RF = "Example 1"
 cv2.namedWindow(WIN_RF)
 cv2.moveWindow(WIN_RF, 100, 100)
 
-counter = 0 #just to test optimized
-start_time = perf_counter()
+#counter = 0 #just to test optimized
+#start_time = perf_counter()
 while cv2.waitKey(4) == -1: # Wait for a key pressed event
     retval , frameReference = cam.read() # Read frame
     
@@ -96,13 +96,13 @@ while cv2.waitKey(4) == -1: # Wait for a key pressed event
         ang_deg, signfunc = detector(corners, markerLength, camera_matrix, dist_coeffs)
     
     
-    
+    """
     #Still just for opti
     counter += 1
     temp_time = perf_counter()
     if temp_time-start_time > 10:
         break
-
+    """
 
 
 
