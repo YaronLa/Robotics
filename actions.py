@@ -1,10 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Sun Sep 25 12:46:29 2022
-
-@author: flemm
-"""
-
 import robot
 import time
 from time import sleep
