@@ -51,7 +51,7 @@ def detector(corners, markerLength, camera_matrix, dist_coeffs):
     signfunc = np.sign(np.dot(tvec,ex))
     ang_deg = signfunc * np.rad2deg(theta)
     
-    return ang_deg, signfunc
+    return dist, ang_deg, signfunc
 
 #Info used
 arucoDict = cv2.aruco.Dictionary_get(cv2.aruco.DICT_6X6_250)
@@ -85,7 +85,7 @@ while cv2.waitKey(4) == -1: # Wait for a key pressed event
     
     #If object detected
     if corners:
-        ang_deg, signfunc = detector(corners, markerLength, camera_matrix, dist_coeffs)
+        dist, ang_deg, signfunc = detector(corners, markerLength, camera_matrix, dist_coeffs)
     
 
 
