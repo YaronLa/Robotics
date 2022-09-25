@@ -1,10 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Wed Sep 21 17:33:14 2022
-
-@author: flemm
-"""
-
 import cv2
 from time import sleep, perf_counter
 from threading import Thread
