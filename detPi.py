@@ -33,6 +33,6 @@ while cv2.waitKey(5) == -1:
         exit(-1)
     corners, ids, rejected = cv2.aruco.detectMarkers(frame, dict)
     cv2.aruco.drawDetectedMarkers(frame,corners)
-    print(ids)
+    print(corners)
     cv2.imshow("billede",frame)
 
