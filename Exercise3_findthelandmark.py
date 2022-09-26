@@ -1,3 +1,5 @@
+print("The Code Is Alive!!")
+
 import cv2
 from time import sleep, perf_counter
 from threading import Thread
