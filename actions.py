@@ -65,6 +65,7 @@ def scan_for_object(camera, dict):
         if corners:
             arlo.stop()
             break
+        arlo.stop()
         
     
         
