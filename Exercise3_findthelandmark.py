@@ -23,8 +23,8 @@ def gstreamer_pipeline(capture_width=1024, capture_height=720, framerate=30):
 
 class CamObject:
     def __init__(self, stream_id=0):
-        self.cam      = cv2.VideoCapture(stream_id, cv2.CAP_DSHOW)
-        #self.cam      = cv2.VideoCapture(gstreamer_pipeline(), apiPreference=cv2.CAP_GSTREAMER)        
+        #self.cam      = cv2.VideoCapture(stream_id, cv2.CAP_DSHOW)
+        self.cam      = cv2.VideoCapture(gstreamer_pipeline(), apiPreference=cv2.CAP_GSTREAMER)        
         self.grabbed , self.frame = self.cam.read()
         self.running = True
         self.task     = Thread(target=self.update, args=()).start()
@@ -61,8 +61,7 @@ WIN_RF = "Example 1"
 cv2.namedWindow(WIN_RF)
 cv2.moveWindow(WIN_RF, 100, 100)
 
-counter = 0 #just to test optimized
-start_time = perf_counter()
+
 while cv2.waitKey(4) == -1: # Wait for a key pressed event
     retval , frameReference = cam.read() # Read frame
     
@@ -71,8 +70,8 @@ while cv2.waitKey(4) == -1: # Wait for a key pressed event
     cv2.aruco.drawDetectedMarkers(frameReference,corners)
     cv2.imshow(WIN_RF, frameReference)
     
-    if not corners:
-        actions.scan_for_object(cam, dict)
+    #if not corners:
+    #    actions.scan_for_object(cam, dict)
     #If object detected
     if corners:
         #arlo.stop()
@@ -80,18 +79,9 @@ while cv2.waitKey(4) == -1: # Wait for a key pressed event
         actions.drive_to_object(dist, ang_deg, signfunc)
     
     
-    #Still just for opti
-    counter += 1
-    temp_time = perf_counter()
-    if temp_time-start_time > 10:
-        break
 
 
 
-
-end_time = perf_counter()
-print(f'It took {end_time- start_time: 0.2f} second(s) to complete.')
-print(counter)
 
 cam.stop_task()
 cv2.destroyAllWindows()
