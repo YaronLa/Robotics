@@ -8,10 +8,11 @@ import numpy as np
 import actions
 
 #Pipline
-def gstreamer_pipeline(capture_width=1024, capture_height=720, framerate=30):
+def gstreamer_pipeline(capture_width=1280, capture_height=720, framerate=30):
     """Utility function for setting parameters for the gstreamer camera pipeline"""
     return (
         "libcamerasrc !"
+        "videobox autocrop=true !"
         "video/x-raw, width=(int)%d, height=(int)%d, framerate=(fraction)%d/1 ! "
         "videoconvert ! "
         "appsink"
@@ -47,7 +48,7 @@ class CamObject:
 #Info used
 arucoDict = cv2.aruco.Dictionary_get(cv2.aruco.DICT_6X6_250)
 dict = cv2.aruco.getPredefinedDictionary(cv2.aruco.DICT_6X6_250)
-camera_matrix = np.array([ 1651, 0.0,960, 0, 1651, 540, 0, 0, 1]).reshape(3,3)
+camera_matrix = np.array([ 1140, 0.0,640, 0, 1140, 360, 0, 0, 1]).reshape(3,3)
 dist_coeffs = np.array([0.0, 0.0, 0.0, 0.0, 0.0]).reshape(5,1)
 markerLength = 150
 
@@ -60,8 +61,8 @@ sleep(0.5) # Some cams need to warm up with a few frames. Apparently?
 
 # Open a window
 WIN_RF = "Example 1"
-cv2.namedWindow(WIN_RF)
-cv2.moveWindow(WIN_RF, 100, 100)
+#cv2.namedWindow(WIN_RF)
+#cv2.moveWindow(WIN_RF, 100, 100)
 
 
 while cv2.waitKey(4) == -1: # Wait for a key pressed event
