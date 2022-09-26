@@ -12,7 +12,7 @@ def forward_m(m, leftSpeed = 69, rightSpeed = 69):
     start_time = time.perf_counter()
     print(arlo.go_diff(leftSpeed, rightSpeed, 1, 1))
     while True:
-        if ((float(time.perf_counter()) - float(start_time)) > 2.235 * 0.5 * float(m) ):
+        if ((float(time.perf_counter()) - float(start_time)) > 2.235 * float(m) ):
             print(arlo.stop())
             break  
 
