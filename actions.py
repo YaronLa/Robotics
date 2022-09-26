@@ -12,7 +12,7 @@ def forward_m(m, leftSpeed = 69, rightSpeed = 69):
     start_time = time.perf_counter()
     print(arlo.go_diff(leftSpeed, rightSpeed, 1, 1))
     while True:
-        if ((float(time.perf_counter()) - float(start_time)) > 2.235 * float(m) ):
+        if ((float(time.perf_counter()) - float(start_time)) > 2.235 * float(m) - 2.235 * 0.15 ):
             print(arlo.stop())
             break  
 
@@ -58,8 +58,8 @@ def drive_to_object(dist_mm, ang, sign):
 
 def scan_for_object(camera, dict):
     for _ in range(1):
-        turn_degrees(20, 1) #Turning right
-        sleep(5) #Sleep time it takes to turn 30 degrees.
+        turn_degrees(28, 1) #Turning right
+        sleep(0.25) #Sleep time it takes to turn 30 degrees.
         _ , temp_frame = camera.read()
         corners, ids, rejected = cv2.aruco.detectMarkers(temp_frame, dict)
         if corners:
