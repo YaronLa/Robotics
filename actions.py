@@ -51,9 +51,9 @@ def detector(corners, markerLength, camera_matrix, dist_coeffs):
 
 def drive_to_object(dist_mm, ang, sign):
     turn_degrees(ang, sign)
-    sleep(0.02)
+    sleep(1)
     forward_mm(dist_mm)
-    sleep(0.02)
+    sleep(1)
     
 
 def scan_for_object(camera, dict):
