@@ -68,15 +68,18 @@ while cv2.waitKey(4) == -1: # Wait for a key pressed event
     #Object detection
     corners, ids, rejected = cv2.aruco.detectMarkers(frameReference, dict)
     cv2.aruco.drawDetectedMarkers(frameReference,corners)
-    cv2.imshow(WIN_RF, frameReference)
+    #cv2.imshow(WIN_RF, frameReference)
     
-    #if not corners:
-    #    actions.scan_for_object(cam, dict)
+    if not corners:
+        actions.scan_for_object(cam, dict)
+        
     #If object detected
+    print(ids)
     if corners:
         #arlo.stop()
         dist, ang_deg, signfunc = actions.detector(corners, markerLength, camera_matrix, dist_coeffs)
         actions.drive_to_object(dist, ang_deg, signfunc)
+        sleep(1)
     
     
 
