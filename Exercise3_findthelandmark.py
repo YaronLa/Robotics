@@ -47,7 +47,7 @@ class CamObject:
 #Info used
 arucoDict = cv2.aruco.Dictionary_get(cv2.aruco.DICT_6X6_250)
 dict = cv2.aruco.getPredefinedDictionary(cv2.aruco.DICT_6X6_250)
-camera_matrix = np.array([ 1651, 0.0,512, 0, 1651, 360, 0, 0, 1]).reshape(3,3)
+camera_matrix = np.array([ 1651, 0.0,960, 0, 1651, 540, 0, 0, 1]).reshape(3,3)
 dist_coeffs = np.array([0.0, 0.0, 0.0, 0.0, 0.0]).reshape(5,1)
 markerLength = 150
 
