@@ -6,7 +6,7 @@ import numpy as np
 import actions
 
 #Pipline
-def gstreamer_pipeline(capture_width=1024, capture_height=720, framerate=30):
+def gstreamer_pipeline(capture_width=1024, capture_height=720, framerate=10):
     """Utility function for setting parameters for the gstreamer camera pipeline"""
     return (
         "libcamerasrc !"
