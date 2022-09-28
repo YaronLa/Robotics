@@ -73,8 +73,8 @@ while cv2.waitKey(4) == -1: # Wait for a key pressed event
     cv2.aruco.drawDetectedMarkers(frameReference,corners)
     #cv2.imshow(WIN_RF, frameReference)
     
-    if not corners:
-        actions.scan_for_object(cam, dict)
+    #if not corners:
+    #    actions.scan_for_object(cam, dict)
         
     #If object detected
     print(ids)
