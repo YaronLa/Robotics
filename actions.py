@@ -8,7 +8,7 @@ arlo = robot.Robot()
 sleep(0.02)
 
 
-def forward_m(m, leftSpeed = 69, rightSpeed = 69):
+def forward_m(m, leftSpeed = 69, rightSpeed = 70):
     start_time = time.perf_counter()
     print(arlo.go_diff(leftSpeed, rightSpeed, 1, 1))
     while True:
@@ -16,11 +16,11 @@ def forward_m(m, leftSpeed = 69, rightSpeed = 69):
             print(arlo.stop())
             break  
 
-def forward_mm(m, leftSpeed = 69, rightSpeed = 69):
+def forward_mm(m, leftSpeed = 69, rightSpeed = 70):
     forward_m(m*0.001)
 
 
-def turn_degrees(degrees, sign, leftSpeed = 70 , rightSpeed = 69): #it will spin clockwise if turn>
+def turn_degrees(degrees, sign, leftSpeed = 60 , rightSpeed = 60): #it will spin clockwise if turn>
     scalar = degrees/ 90
     
     spin_lw, spin_rw = 1 , 0    #Choose spin direction. sign = 1, turn right, sign=-1 turn left 
