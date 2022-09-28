@@ -47,7 +47,7 @@ def detector(corners, markerLength, camera_matrix, dist_coeffs):
     signfunc = np.sign(np.dot(tvec,ex))
     ang_deg = signfunc * np.rad2deg(theta)
     
-    return dist, ang_deg, signfunc
+    return dist, np.rad2deg(theta), signfunc
 
 def drive_to_object(dist_mm, ang, sign):
     turn_degrees(ang, sign)
