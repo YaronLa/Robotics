@@ -12,10 +12,11 @@ ez = np.array([0,0,1])
 ex = np.array([1,0,0])
 
 print("OpenCV version = " + cv2.__version__)
-def gstreamer_pipeline(capture_width=1024, capture_height=720, framerate=30):
+def gstreamer_pipeline(capture_width=1280, capture_height=720, framerate=30):
     """Utility function for setting parameters for the gstreamer camera pipeline"""
     return (
         "libcamerasrc !"
+        "videobox autocrop=true !"
         "video/x-raw, width=(int)%d, height=(int)%d, framerate=(fraction)%d/1 ! "
         "videoconvert ! "
         "appsink"
@@ -36,9 +37,9 @@ if not cam.isOpened(): # Error
     exit(-1)
 
 # Open a window
-WIN_RF = "Example 1"
-cv2.namedWindow(WIN_RF)
-cv2.moveWindow(WIN_RF, 100, 100)
+#WIN_RF = "Example 1"
+#cv2.namedWindow(WIN_RF)
+#cv2.moveWindow(WIN_RF, 100, 100)
 
 arucoDict = cv2.aruco.Dictionary_get(cv2.aruco.DICT_6X6_250)
 arucoParams = cv2.aruco.DetectorParameters_create()
@@ -65,7 +66,7 @@ while cv2.waitKey(4) == -1: # Wait for a key pressed event
     corners, ids, rejected = cv2.aruco.detectMarkers(frameReference, dict)
     cv2.aruco.drawDetectedMarkers(frameReference,corners)
     print(ids)
-    cv2.imshow("billede",frameReference)
+#    cv2.imshow("billede",frameReference)
     if corners: 
         #print(dist - arlo.read_front_ping_sensor())
         sleep(1)
@@ -75,7 +76,7 @@ while cv2.waitKey(4) == -1: # Wait for a key pressed event
         theta = np.arccos(np.dot((tvec/dist),ez))
         signfunc = np.sign(np.dot(tvec,ex))
         ang_deg = signfunc * np.rad2deg(theta)
-        print(ang_deg)
+        print(dist)
 
 # Finished successfully
 
