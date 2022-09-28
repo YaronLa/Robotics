@@ -1,6 +1,6 @@
 import cv2
 
-def gstreamer_pipeline(capture_width=1024, capture_height=720, framerate=30):
+def gstreamer_pipeline(capture_width=1280, capture_height=720, framerate=30):
     """Utility function for setting parameters for the gstreamer camera pipeline"""
     return (
         "libcamerasrc !"
@@ -34,5 +34,5 @@ while cv2.waitKey(5) == -1:
     corners, ids, rejected = cv2.aruco.detectMarkers(frame, dict)
     cv2.aruco.drawDetectedMarkers(frame,corners)
     print(corners)
-    cv2.imshow("billede",frame)
+#    cv2.imshow("billede",frame)
 
