@@ -75,6 +75,7 @@ while cv2.waitKey(4) == -1: # Wait for a key pressed event
     
     if not corners:
         actions.scan_for_object(cam, dict)
+        sleep(1)
         
     #If object detected
     print(ids)
