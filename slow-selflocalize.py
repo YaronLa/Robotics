@@ -239,7 +239,7 @@ try:
             print("resampling....")
             particles = resample_particles(particles, probabilities)
             #adding noise
-            #particles = particle.add_uncertainty(particles, 0.1, 0.1)
+
             print("resampling done")
             # Draw detected objects
         else:
@@ -247,7 +247,7 @@ try:
             for p in particles:
                 p.setWeight(1.0/num_particles)
 
-    
+        particle.add_uncertainty(particles, 0.1, 0.1)    
         est_pose = particle.estimate_pose(particles) # The estimate of the robots current pose
 
         if showGUI:
