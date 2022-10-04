@@ -51,9 +51,9 @@ CBLACK = (0, 0, 0)
 
 # Landmarks.
 # The robot knows the position of 2 landmarks. Their coordinates are in the unit centimeters [cm].
-landmarkIDs = [1, 2]
+landmarkIDs = [4, 2]
 landmarks = {
-    1: (0.0, 0.0),  # Coordinates for landmark 1
+    4: (0.0, 0.0),  # Coordinates for landmark 1
     2: (300.0, 0.0)  # Coordinates for landmark 2
 }
 landmark_colors = [CRED, CGREEN] # Colors used when drawing the landmarks
@@ -196,6 +196,9 @@ try:
         colour = cam.get_next_frame()
         
         # Detect objects
+
+
+        
         objectIDs, dists, angles = cam.detect_aruco_objects(colour)
         if not isinstance(objectIDs, type(None)):
             # List detected objects
@@ -206,20 +209,32 @@ try:
             # Compute particle weights
             # XXX: You do this
             print("ny omgang ")
-            sigma = 50
+            sigma = 4
+            sigma_theta = 8
             sum_of_weights = 0
             #print(objectIDs[0])
             box_x = landmarks[objectIDs[0]][0] #x koordinat for kassen der er observeret
-            box_y = landmarks[objectIDs[0]][1] #y koordinat for kassen der er observeret
+            box_y = landmarks[objectIDs[0]][1]#y koordinat for kassen der er observeret
             dist = dists[0] #distance kassen er observeret fra
+            box_theta = angles[0]
+            
             for elm in (particles):
                 delta_x, delta_y =  box_x - elm.getX(), box_y - elm.getY() #forskellen på partikel og koordinat for den observerede kasse   
                 dist_from_particle_to_box = math.sqrt(pow(delta_x,2) + pow(delta_y, 2)) #distancen fra partiklen til kassen 
                 potens = ((pow( (dist_from_particle_to_box - dist), 2 ))/(2 * (pow(sigma, 2))))
-                weight = np.exp(-potens) #regner vægten
+                weight_dist = np.exp(-potens) #regner vægten
+                
+                
+                print(elm.getTheta(), box_theta)
+                delta_theta =  box_theta - elm.getTheta()
+                potens_theta = ((pow( (delta_theta), 2 ))/(2 * (pow(sigma_theta, 2))))
+                weight_theta = np.exp(-potens_theta)
+                
+                weight = weight_dist * weight_theta
+                
                 elm.setWeight(weight)
                 sum_of_weights += weight
-            probabilities = []    
+            probabilities = []
             for elm in particles:
                 probabilities.append(elm.getWeight()/sum_of_weights)
                 elm.setWeight(elm.getWeight()/sum_of_weights)
@@ -235,11 +250,19 @@ try:
                     di = xBox-elm.getX()**2.0 +yBox-elm.getY()**2.0
                     elm.setweight(np.exp(pow((di - dists[j]),2)/(2*(pow(sigma,2))) )"""             
             # Resampling
-            # XXX: You do thisQQQQQQ
+            # XXX: You do this
             print("resampling....")
             particles = resample_particles(particles, probabilities)
-            #adding noise
 
+            for elm in particles:
+                delta_x, delta_y =  box_x - elm.getX(), box_y - elm.getY() #forskellen på partikel og koordinat for den observerede kasse   
+                dist_from_particle_to_box = math.sqrt(pow(delta_x,2) + pow(delta_y, 2)) #distancen fra partiklen til kassen 
+                if delta_y > 0:
+                    elm.setTheta(math.acos((delta_x/dist_from_particle_to_box)))
+                else: 
+                    elm.setTheta(-math.acos((delta_x/dist_from_particle_to_box)))
+            #adding noise
+            particle.add_uncertainty(particles, 0.1, 0.1)
             print("resampling done")
             # Draw detected objects
         else:
@@ -247,9 +270,8 @@ try:
             for p in particles:
                 p.setWeight(1.0/num_particles)
 
-        particle.add_uncertainty(particles, 0.1, 0.1)    
+        #particle.add_uncertainty(particles, 0.01, 0.001)
         est_pose = particle.estimate_pose(particles) # The estimate of the robots current pose
-
         if showGUI:
             # Draw map
             draw_world(est_pose, particles, world)
