@@ -19,7 +19,7 @@ def driving_strat(middle, pose):
     theta_new = (pose[2]-theta)*180/np.pi
     return theta_new, dist
 
-def drive_to_middle(theta, dist):
+def drive_to_middle():
     pose = []
     id_lst = []
     parties_lst = []
@@ -48,7 +48,7 @@ def drive_to_middle(theta, dist):
            # dist, ang_deg, signfunc = actions.detector(corners, markerLength, camera_matrix, dist_coeffs)
             #actions.drive_to_object(dist, ang_deg, signfunc)
             sleep(1)
-     
+    drive_to_middle()
     theta_new, dist = driving_strat([150,0], pose)
     sign, theta = np.sign(theta_new), np.abs(theta_new)
     actions.turn(theta, sign)
