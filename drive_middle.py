@@ -24,6 +24,7 @@ def drive_to_middle():
     id_lst = []
     parties_lst = []
     while len(id_lst) < 2:
+        print(id_lst)
         retval , frameReference = cam.read() # Read frame
         corners, ids, rejected = cv2.aruco.detectMarkers(frameReference, dict)
         cv2.aruco.drawDetectedMarkers(frameReference,corners)
@@ -31,19 +32,25 @@ def drive_to_middle():
             actions.scan_for_object(camera, dict)
             sleep(1)
         if corners:
+          
             if len(id_lst) == 0:
+                if ids in id_lst:
+                    continue
+                else:
+                    id_lst.append(ids)
 
                 theta, x, y, parties = sls.self_locate()
                 parties_lst.append(parties)
             elif len(id_lst) == 1:
+                if ids in id_lst:
+                    continue
+                else:
+                    id_lst.append(ids)
                 theta, x, y, parties = sls.self_locate(parties_lst[0])
                 pose.append(x)
                 pose.append(y)
                 pose.append(theta)
-            if ids in id_lst:
-                continue
-            else:
-                id_lst.append(ids)
+           
     return pose
             #arlo.stop()
            # dist, ang_deg, signfunc = actions.detector(corners, markerLength, camera_matrix, dist_coeffs)
