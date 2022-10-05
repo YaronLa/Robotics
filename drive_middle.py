@@ -3,6 +3,7 @@ import cv2
 import actions
 import robot
 import fast-selflocalize
+import Exercise3_findthelandmark as cam_imp
 
 arlo = robot.Robot()
 camera = cam_imp.CamOpject()
