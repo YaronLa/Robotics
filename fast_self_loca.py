@@ -200,7 +200,7 @@ def self_locate(init_poses = []):
                 # XXX: You do thisQQQQQQ
                 print("resampling....")
                 particles = resample_particles(particles, probabilities)
-                sleep(1)
+
 
                 
                 #adding noise
