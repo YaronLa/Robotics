@@ -64,9 +64,6 @@ def estimate_pose(particles_list):
      
 def move_particle(particle, delta_x, delta_y, delta_theta):
     """Move the particle by (delta_x, delta_y, delta_theta)"""
-    particle.x += delta_x
-    particle.y += delta_y
-    particle.theta += delta_theta
     print("particle.py: move_particle not implemented. You should do this.") 
 
 
