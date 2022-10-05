@@ -133,183 +133,191 @@ def initialize_particles(num_particles):
 def resample_particles(particles, weights):
     return random.choices(particles, weights, k = len(particles))
 
+
 # Main program #
-try:
-    if showGUI:
-        # Open windows
-        WIN_RF1 = "Robot view"
-        cv2.namedWindow(WIN_RF1)
-        cv2.moveWindow(WIN_RF1, 50, 50)
-
-        WIN_World = "World view"
-        cv2.namedWindow(WIN_World)
-        cv2.moveWindow(WIN_World, 500, 50)
-
-
-    # Initialize particles
-    num_particles = 5000
-    particles = initialize_particles(num_particles)
-
-    est_pose = particle.estimate_pose(particles) # The estimate of the robots current pose
-
-    # Driving parameters
-    velocity = 44.74 # cm/sec
-    angular_velocity = 2.33 # radians/sec
-
-    # Initialize the robot (XXX: You do this)
-    #arlo = robot.Robot()
-
-    # Allocate space for world map
-    world = np.zeros((500,500,3), dtype=np.uint8)
-
-    # Draw map
-    draw_world(est_pose, particles, world)
-
-    print("Opening and initializing camera")
-    if camera.isRunningOnArlo():
-        cam = camera.Camera(0, 'arlo', useCaptureThread = True)
-    else:
-        cam = camera.Camera(0, 'macbookpro', useCaptureThread = True)
-
-    while True:
-
-        # Move the robot according to user input (only for testing)
-        action = cv2.waitKey(10)
-        if action == ord('q'): # Quit
-            break
+def self_locate(init_poses = []):
     
-        if not isRunningOnArlo():
-            if action == ord('w'): # Forward
-                velocity += 4.0
-            elif action == ord('x'): # Backwards
-                velocity -= 4.0
-            elif action == ord('s'): # Stop
-                velocity = 0.0
-                angular_velocity = 0.0
-            elif action == ord('a'): # Left
-                angular_velocity += 0.2
-            elif action == ord('d'): # Right
-                angular_velocity -= 0.2
-
-
-
-        
-        # Use motor controls to update particles
-        # XXX: Make the robot drive
-        # XXX: You do this
-
-
-        # Fetch next frame
-        colour = cam.get_next_frame()
-        
-        # Detect objects
-        objectIDs, dists, angles = cam.detect_aruco_objects(colour)
-        if not isinstance(objectIDs, type(None)):
-            # List detected objects
-            for i in range(len(objectIDs)):
-                print("Object ID = ", objectIDs[i], i, ", Distance = ", dists[i], ", angle = ", angles[i])
-                # XXX: Do something for each detected object - remember, the same ID may appear several times
-
-            # Compute particle weights
-            # XXX: You do this
-            
-            print("ny omgang ")
-            sigma = 5
-            sigma_theta = 0.3
-            sum_of_weights = 0
-            #print(objectIDs[0])
-            box_x = landmarks[objectIDs[0]][0] #x koordinat for kassen der er observeret
-            box_y = landmarks[objectIDs[0]][1]#y koordinat for kassen der er observeret
-            dist = dists[0] #distance kassen er observeret fra
-            box_theta = angles[0]
-            print(len(particles))
-            for elm in (particles):
-                delta_x, delta_y =  box_x - elm.getX(), box_y - elm.getY() #forskellen på partikel og koordinat for den observerede kasse   
-                dist_from_particle_to_box = math.sqrt(pow(delta_x,2) + pow(delta_y, 2)) #distancen fra partiklen til kassen 
-                potens = ((pow( (dist_from_particle_to_box - dist), 2 ))/(2 * (pow(sigma, 2))))
-                weight_dist = np.exp(-potens) #regner vægten
-                
-                
-                theta_corr = np.arccos(delta_x/dist_from_particle_to_box) 
-                if delta_y < 0:
-                    theta_corr = 2*np.pi - theta_corr 
-                
-                #print(elm.getTheta(), box_theta)
-                delta_theta =  elm.getTheta() - theta_corr 
-
-
-                potens_theta = ((pow( (delta_theta), 2 ))/(2 * (pow(sigma_theta, 2))))
-                weight_theta = np.exp(-potens_theta)
-                
-                    
-                #print(delta_theta)
-                
-                weight = weight_dist * weight_theta
-                
-                elm.setWeight(weight)
-                sum_of_weights += weight
-            probabilities = []    
-            
-            for elm in particles:
-                probabilities.append(elm.getWeight()/sum_of_weights)
-                elm.setWeight(elm.getWeight()/sum_of_weights)
-                #print("probability: ", elm.getWeight())
-            cam.draw_aruco_objects(colour)
-            """for elm in particles:
-                for dist in dists:
-                    landmarks[objectIDs[0]]
-                    di = xBox-elm.getX()**2.0 +yBox-elm.getY()**2.0
-                    elm.setweight(np.exp(pow((di - dist),2)/(2*(pow(sigma,2))) )
-                for j in range(len(dists)):
-                    landmarks[objectIDs[i]]
-                    di = xBox-elm.getX()**2.0 +yBox-elm.getY()**2.0
-                    elm.setweight(np.exp(pow((di - dists[j]),2)/(2*(pow(sigma,2))) )"""             
-            # Resampling
-            # XXX: You do thisQQQQQQ
-            print("resampling....")
-            particles = resample_particles(particles, probabilities)
-            time.sleep(1)
-            """
-            for elm in particles:
-                delta_x, delta_y =  box_x - elm.getX(), box_y - elm.getY() #forskellen på partikel og koordinat for den observerede kasse   
-                dist_from_particle_to_box = math.sqrt(pow(delta_x,2) + pow(delta_y, 2))
-                theta = np.arccos(delta_x/dist_from_particle_to_box)
-                if delta_y < 0:
-                    theta = -1*theta
-                elm.setTheta(theta)
-            """
-            
-            #adding noise
-            #particles = particle.add_uncertainty(particles, 0.1, 0.1)
-            print("resampling done")
-            # Draw detected objects
+    try:
+        if showGUI:
+            # Open windows
+            WIN_RF1 = "Robot view"
+            cv2.namedWindow(WIN_RF1)
+            cv2.moveWindow(WIN_RF1, 50, 50)
+    
+            WIN_World = "World view"
+            cv2.namedWindow(WIN_World)
+            cv2.moveWindow(WIN_World, 500, 50)
+    
+    
+        # Initialize particles
+        num_particles = 5000
+        if len(init_poses) != 0:
+            particles = init_poses
         else:
-            # No observation - reset weights to uniform distribution
-            for p in particles:
-                p.setWeight(1.0/num_particles)
-        
-        particle.add_uncertainty(particles, 0.1, 0.01)
+            particles = initialize_particles(num_particles)
     
         est_pose = particle.estimate_pose(particles) # The estimate of the robots current pose
-
-        if showGUI:
-            # Draw map
-            draw_world(est_pose, particles, world)
     
-            # Show frame
-            cv2.imshow(WIN_RF1, colour)
-
-            # Show world
-            cv2.imshow(WIN_World, world)
+        # Driving parameters
+        velocity = 44.74 # cm/sec
+        angular_velocity = 2.33 # radians/sec
     
-  
-finally: 
-    # Make sure to clean up even if an exception occurred
+        # Initialize the robot (XXX: You do this)
+        #arlo = robot.Robot()
+        
+        # Allocate space for world map
+        world = np.zeros((500,500,3), dtype=np.uint8)
     
-    # Close all windows
-    cv2.destroyAllWindows()
+        # Draw map
+        draw_world(est_pose, particles, world)
+    
+        print("Opening and initializing camera")
+        if camera.isRunningOnArlo():
+            cam = camera.Camera(0, 'arlo', useCaptureThread = True)
+        else:
+            cam = camera.Camera(0, 'macbookpro', useCaptureThread = True)
+        count = 0 
+        while count < 3:
+            # Move the robot according to user input (only for testing)
+            action = cv2.waitKey(10)
+            if action == ord('q'): # Quit
+                break
+        
+            if not isRunningOnArlo():
+                if action == ord('w'): # Forward
+                    velocity += 4.0
+                elif action == ord('x'): # Backwards
+                    velocity -= 4.0
+                elif action == ord('s'): # Stop
+                    velocity = 0.0
+                    angular_velocity = 0.0
+                elif action == ord('a'): # Left
+                    angular_velocity += 0.2
+                elif action == ord('d'): # Right
+                    angular_velocity -= 0.2
+    
+    
+    
+            
+            # Use motor controls to update particles
+            # XXX: Make the robot drive
+            # XXX: You do this
+    
+    
+            # Fetch next frame
+            colour = cam.get_next_frame()
+            
+            # Detect objects
+            objectIDs, dists, angles = cam.detect_aruco_objects(colour)
+            if not isinstance(objectIDs, type(None)):
+                count += 1
+                # List detected objects
+                #for i in range(len(objectIDs)):
+                    #print("Object ID = ", objectIDs[i], i, ", Distance = ", dists[i], ", angle = ", angles[i])
+                    # XXX: Do something for each detected object - remember, the same ID may appear several times
+    
+                # Compute particle weights
+                # XXX: You do this
+                
+                print("ny omgang ")
+                sigma = 5
+                sigma_theta = 0.3
+                sum_of_weights = 0
+                #print(objectIDs[0])
+                box_x = landmarks[objectIDs[0]][0] #x koordinat for kassen der er observeret
+                box_y = landmarks[objectIDs[0]][1]#y koordinat for kassen der er observeret
+                dist = dists[0] #distance kassen er observeret fra
+                box_theta = angles[0]
 
-    # Clean-up capture thread
-    cam.terminateCaptureThread()
+                for elm in (particles):
+                    delta_x, delta_y =  box_x - elm.getX(), box_y - elm.getY() #forskellen på partikel og koordinat for den observerede kasse   
+                    dist_from_particle_to_box = math.sqrt(pow(delta_x,2) + pow(delta_y, 2)) #distancen fra partiklen til kassen 
+                    potens = ((pow( (dist_from_particle_to_box - dist), 2 ))/(2 * (pow(sigma, 2))))
+                    weight_dist = np.exp(-potens) #regner vægten
+
+                    
+                    theta_corr = np.arccos(delta_x/dist_from_particle_to_box) 
+                    if delta_y < 0:
+                        theta_corr = 2*np.pi - theta_corr 
+                    
+                    #print(elm.getTheta(), box_theta)
+                    delta_theta =  elm.getTheta() - theta_corr 
+    
+    
+                    potens_theta = ((pow( (delta_theta), 2 ))/(2 * (pow(sigma_theta, 2))))
+                    weight_theta = np.exp(-potens_theta)
+                    
+                        
+                    #print(delta_theta)
+                    
+                    weight = weight_dist * weight_theta
+                    
+                    elm.setWeight(weight)
+                    sum_of_weights += weight
+                probabilities = []    
+                
+                for elm in particles:
+                    probabilities.append(elm.getWeight()/sum_of_weights)
+                    elm.setWeight(elm.getWeight()/sum_of_weights)
+                    #print("probability: ", elm.getWeight())
+                cam.draw_aruco_objects(colour)
+                
+                # Resampling
+                # XXX: You do thisQQQQQQ
+                print("resampling....")
+                particles = resample_particles(particles, probabilities)
+                time.sleep(1)
+                """
+                for elm in particles:
+                    delta_x, delta_y =  box_x - elm.getX(), box_y - elm.getY() #forskellen på partikel og koordinat for den observerede kasse   
+                    dist_from_particle_to_box = math.sqrt(pow(delta_x,2) + pow(delta_y, 2))
+                    theta = np.arccos(delta_x/dist_from_particle_to_box)
+                    if delta_y < 0:
+                        theta = -1*theta
+                    elm.setTheta(theta)
+                """
+                
+                #adding noise
+                #particles = particle.add_uncertainty(particles, 0.1, 0.1)
+                print("resampling done")
+                # Draw detected objects
+            else:
+                # No observation - reset weights to uniform distribution
+                for p in particles:
+                    p.setWeight(1.0/num_particles)
+            
+            particle.add_uncertainty(particles, 0.1, 0.01)
+        
+            est_pose = particle.estimate_pose(particles) # The estimate of the robots current pose
+    
+            if showGUI:
+                # Draw map
+                draw_world(est_pose, particles, world)
+        
+                # Show frame
+                cv2.imshow(WIN_RF1, colour)
+    
+                # Show world
+                cv2.imshow(WIN_World, world)
+        
+            
+
+        return est_pose.getTheta(), est_pose.getX(), est_pose.getY(), particles
+        
+        
+    finally: 
+        # Make sure to clean up even if an exception occurred
+        
+        # Close all windows
+        cv2.destroyAllWindows()
+    
+        # Clean-up capture thread
+        cam.terminateCaptureThread()
+
+    
+theta, x, y, parti = self_locate()
+print(theta, x, y)
+
+
 
 
