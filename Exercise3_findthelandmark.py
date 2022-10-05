@@ -65,7 +65,7 @@ WIN_RF = "Example 1"
 #cv2.moveWindow(WIN_RF, 100, 100)
 
 
-while cv2.waitKey(4) == -1: # Wait for a key pressed event
+"""while cv2.waitKey(4) == -1: # Wait for a key pressed event
     retval , frameReference = cam.read() # Read frame
     
     #Object detection
@@ -84,14 +84,14 @@ while cv2.waitKey(4) == -1: # Wait for a key pressed event
         dist, ang_deg, signfunc = actions.detector(corners, markerLength, camera_matrix, dist_coeffs)
         actions.drive_to_object(dist, ang_deg, signfunc)
         sleep(1)
+  """ 
     
-    
 
 
 
 
-cam.stop_task()
-cv2.destroyAllWindows()
+#cam.stop_task()
+#cv2.destroyAllWindows()
 
 
 
