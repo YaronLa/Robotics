@@ -3,7 +3,7 @@ import cv2
 import actions
 import robot
 import Exercise3_findthelandmark as cam_imp
-import particles
+import particle
 import Self_localization_slow as sls
 
 arlo = robot.Robot()
