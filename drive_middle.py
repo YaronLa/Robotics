@@ -36,7 +36,7 @@ def drive_to_middle(theta, dist):
                 id_lst.append(ids)
             #arlo.stop()
             dist, ang_deg, signfunc = actions.detector(corners, markerLength, camera_matrix, dist_coeffs)
-            actions.drive_to_object(dist, ang_deg, signfunc)
+            #actions.drive_to_object(dist, ang_deg, signfunc)
             sleep(1)
         #Go to the middle
         sign, theta = np.sign(theta), np.abs(theta)
