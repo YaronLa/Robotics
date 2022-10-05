@@ -267,19 +267,11 @@ def self_locate(init_poses = []):
                 print("resampling....")
                 particles = resample_particles(particles, probabilities)
                 time.sleep(1)
-                """
-                for elm in particles:
-                    delta_x, delta_y =  box_x - elm.getX(), box_y - elm.getY() #forskellen på partikel og koordinat for den observerede kasse   
-                    dist_from_particle_to_box = math.sqrt(pow(delta_x,2) + pow(delta_y, 2))
-                    theta = np.arccos(delta_x/dist_from_particle_to_box)
-                    if delta_y < 0:
-                        theta = -1*theta
-                    elm.setTheta(theta)
-                """
+
                 
                 #adding noise
                 #particles = particle.add_uncertainty(particles, 0.1, 0.1)
-                print("resampling done")
+
                 # Draw detected objects
             else:
                 # No observation - reset weights to uniform distribution
@@ -314,9 +306,9 @@ def self_locate(init_poses = []):
         # Clean-up capture thread
         cam.terminateCaptureThread()
 
-    
-theta, x, y, parti = self_locate()
-print(theta, x, y)
+   
+#theta, x, y, parti = self_locate()
+#print(theta, x, y)
 
 
 
