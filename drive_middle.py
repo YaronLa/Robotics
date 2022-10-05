@@ -2,7 +2,7 @@ import numpy as np
 import cv2
 import actions
 import robot
-import slow-selflocalize
+import fast-selflocalize
 
 arlo = robot.Robot()
 camera = cam_imp.CamOpject()
