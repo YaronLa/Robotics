@@ -2,7 +2,6 @@ import numpy as np
 import cv2
 import actions
 import robot
-import slow_selflocalize
 import Exercise3_findthelandmark as cam_imp
 import particles
 import Self_localization_slow as sls
