@@ -23,7 +23,7 @@ def drive_to_middle():
     pose = []
     id_lst = []
     parties_lst = []
-    while len(id_lst) < 2:
+    while len(id_lst) < 3:
         print(id_lst)
         retval , frameReference = cam.read() # Read frame
         corners, ids, rejected = cv2.aruco.detectMarkers(frameReference, dict)
