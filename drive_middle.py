@@ -44,13 +44,14 @@ def drive_to_middle():
                 continue
             else:
                 id_lst.append(ids)
+    return pose
             #arlo.stop()
            # dist, ang_deg, signfunc = actions.detector(corners, markerLength, camera_matrix, dist_coeffs)
             #actions.drive_to_object(dist, ang_deg, signfunc)
-            sleep(1)
-    drive_to_middle()
-    theta_new, dist = driving_strat([150,0], pose)
-    sign, theta = np.sign(theta_new), np.abs(theta_new)
-    actions.turn(theta, sign)
-    actions.forward_mm(dist)
-    arlo.stop()
+
+pose = drive_to_middle()
+theta_new, dist = driving_strat([150,0], pose)
+sign, theta = np.sign(theta_new), np.abs(theta_new)
+actions.turn(theta, sign)
+actions.forward_mm(dist)
+arlo.stop()
