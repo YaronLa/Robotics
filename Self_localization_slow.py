@@ -163,7 +163,7 @@ def self_locate(init_poses = []):
         angular_velocity = 2.33 # radians/sec
     
         # Initialize the robot (XXX: You do this)
-        #arlo = robot.Robot()
+        arlo = robot.Robot()
         
         # Allocate space for world map
         world = np.zeros((500,500,3), dtype=np.uint8)
