@@ -5,7 +5,7 @@ import robot
 import slow-selflocalize
 import Exercise3_findthelandmark as cam_imp
 import particles
-import self-localization-slow as sls
+import Self_localization_slow as sls
 
 arlo = robot.Robot()
 camera = cam_imp.CamOpject()
