@@ -57,6 +57,7 @@ def drive_to_middle():
             #actions.drive_to_object(dist, ang_deg, signfunc)
 
 pose = drive_to_middle()
+print(pose)
 theta_new, dist = driving_strat([150,0], pose)
 sign, theta = np.sign(theta_new), np.abs(theta_new)
 actions.turn(theta, sign)
