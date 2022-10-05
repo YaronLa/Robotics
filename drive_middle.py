@@ -16,10 +16,11 @@ def driving_strat(middle, pose):
     delta_x = middle[0]-pose[0]
     dist = np.sqrt(delta_x**2 + delta_y**2)
     theta = np.arccos(delta_y/dist) 
-    theta_new = (pose[3]-theta)*180/np.pi
+    theta_new = (pose[2]-theta)*180/np.pi
     return theta_new, dist
 
 def drive_to_middle(theta, dist):
+    pose = []
     id_lst = []
     parties_lst = []
     while len(id_lst) < 2:
@@ -36,6 +37,9 @@ def drive_to_middle(theta, dist):
                 parties_lst.append(parties)
             elif len(id_lst) == 1:
                 theta, x, y, parties = sls.self_locate(parties_lst[0])
+                pose.append(x)
+                pose.append(y)
+                pose.append(theta)
             if ids in id_lst:
                 continue
             else:
@@ -44,7 +48,9 @@ def drive_to_middle(theta, dist):
            # dist, ang_deg, signfunc = actions.detector(corners, markerLength, camera_matrix, dist_coeffs)
             #actions.drive_to_object(dist, ang_deg, signfunc)
             sleep(1)
-    sign, theta = np.sign(theta), np.abs(theta)
+     
+    theta_new, dist = driving_strat([150,0], pose)
+    sign, theta = np.sign(theta_new), np.abs(theta_new)
     actions.turn(theta, sign)
     actions.forward_mm(dist)
     arlo.stop()
