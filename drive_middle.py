@@ -5,6 +5,9 @@ import robot
 import slow-selflocalize
 
 arlo = robot.Robot()
+camera = cam_imp.CamOpject()
+arucoDict = cv2.aruco.Dictionary_get(cv2.aruco.DICT_6X6_250)
+dict = cv2.aruco.getPredefinedDictionary(cv2.aruco.DICT_6X6_250)
 
 def driving_strat(middle, pose):
     delta_y = middle[1]-pose[1]
@@ -15,6 +18,23 @@ def driving_strat(middle, pose):
     return theta_new, dist
 
 def drive_to_middle(theta, dist):
-    sign, theta = np.sign(theta), np.abs(theta)
-    actions.turn(theta, sign)
-    actions.forward_mm(dist)
+    id_lst = []
+    while len(id_lst) < 2:
+        retval , frameReference = cam.read() # Read frame
+        corners, ids, rejected = cv2.aruco.detectMarkers(frameReference, dict)
+        cv2.aruco.drawDetectedMarkers(frameReference,corners)
+        if not corners:
+            actions.scan_for_object(camera, dict)
+            sleep(1)
+        if corners:
+            if ids in id_lst:
+                continue
+            else:
+                id_lst.append(ids)
+            #arlo.stop()
+            dist, ang_deg, signfunc = actions.detector(corners, markerLength, camera_matrix, dist_coeffs)
+            actions.drive_to_object(dist, ang_deg, signfunc)
+            sleep(1)
+        sign, theta = np.sign(theta), np.abs(theta)
+        actions.turn(theta, sign)
+        actions.forward_mm(dist)
