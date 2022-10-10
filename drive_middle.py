@@ -13,6 +13,7 @@ arlo = robot.Robot()
 #cam_imp.gstreamer_pipeline()
 #cam = camera.Camera(0, 'arlo', useCaptureThread = True)
 cam = cam_imp.CamObject()
+sleep(1)
 
 #Defining the aruco dict
 arucoDict = cv2.aruco.Dictionary_get(cv2.aruco.DICT_6X6_250)
