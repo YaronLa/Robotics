@@ -304,7 +304,7 @@ def self_locate(init_poses = []):
         cv2.destroyAllWindows()
     
         # Clean-up capture thread
-        cam.terminateCaptureThread()
+        #cam.terminateCaptureThread()
 
    
 #theta, x, y, parti = self_locate()
