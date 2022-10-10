@@ -4,6 +4,8 @@ from time import sleep
 import numpy as np
 import cv2
 
+
+
 arlo = robot.Robot()
 sleep(0.02)
 
@@ -69,7 +71,7 @@ def scan_for_object(camera, dict):
         
     
         
-        
+"Sådan, Flemming! "
         
         
         
