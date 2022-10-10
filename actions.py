@@ -4,6 +4,8 @@ from time import sleep
 import numpy as np
 import cv2
 
+#gittest
+
 arlo = robot.Robot()
 sleep(0.02)
 
