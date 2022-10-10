@@ -4,7 +4,11 @@ from time import sleep
 import numpy as np
 import cv2
 
+<<<<<<< HEAD
 #gittest
+=======
+
+>>>>>>> 41dab91528575d00d71f580026af8724bf0aa310
 
 arlo = robot.Robot()
 sleep(0.02)
@@ -71,7 +75,7 @@ def scan_for_object(camera, dict):
         
     
         
-        
+"Sådan, Flemming! "
         
         
         
