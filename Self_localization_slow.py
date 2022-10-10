@@ -171,12 +171,14 @@ def self_locate(cam, init_poses = []):
         # Draw map
         draw_world(est_pose, particles, world)
         
-        """
+        
         print("Opening and initializing camera")
+        """
         if camera.isRunningOnArlo():
             cam = camera.Camera(0, 'arlo', useCaptureThread = True)
         else:
             cam = camera.Camera(0, 'macbookpro', useCaptureThread = True)
+        """
         count = 0 
         while count < 3:
             # Move the robot according to user input (only for testing)
@@ -196,7 +198,7 @@ def self_locate(cam, init_poses = []):
                     angular_velocity += 0.2
                 elif action == ord('d'): # Right
                     angular_velocity -= 0.2
-         """
+         
     
     
             
@@ -206,7 +208,7 @@ def self_locate(cam, init_poses = []):
     
     
             # Fetch next frame
-            colour = cam.get_next_frame()
+            #colour = cam.get_next_frame()
             
             # Detect objects
             objectIDs, dists, angles = cam.detect_aruco_objects(colour)
