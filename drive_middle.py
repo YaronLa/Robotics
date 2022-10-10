@@ -10,7 +10,7 @@ from camera import Camera
 arlo = robot.Robot()
 
 #Initilize pipline for cam and spawn cam in seperat thread
-cam_imp.gstreamer_pipeline()
+#cam_imp.gstreamer_pipeline()
 #cam = camera.Camera(0, 'arlo', useCaptureThread = True)
 cam = cam_imp.CamObject()
 
