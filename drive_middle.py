@@ -10,7 +10,7 @@ arlo = robot.Robot()
 
 #Initilize pipline for cam and spawn cam in seperat thread
 cam_imp.gstreamer_pipeline()
-cam = cam_imp.CamObject()
+#cam = cam_imp.CamObject()
 
 #Defining the aruco dict
 arucoDict = cv2.aruco.Dictionary_get(cv2.aruco.DICT_6X6_250)
