@@ -57,7 +57,7 @@ def find_pose():
                     id_lst.append(ids)
                     
                     #Calling selflocate to get some poses ready for when second object is found
-                    _, _, _, parties = sls.self_locate()
+                    _, _, _, parties = sls.self_locate(cam)
                     # Saving poses
                     parties_lst.append(parties)
                     
@@ -70,7 +70,7 @@ def find_pose():
                     id_lst.append(ids)
                     
                     #Using poses from when we saw the object before. Now we should have a good pose.
-                    theta, x, y, parties = sls.self_locate(parties_lst[0])  
+                    theta, x, y, parties = sls.self_locate(cam, parties_lst[0])  
                     pose = [x, y, theta]
     
     # Return the best estimated pose
