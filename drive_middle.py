@@ -11,8 +11,8 @@ arlo = robot.Robot()
 
 #Initilize pipline for cam and spawn cam in seperat thread
 #cam_imp.gstreamer_pipeline()
-cam = Camera(0, robottype = 'arlo', useCaptureThread = True)
-#cam = cam_imp.CamObject()
+#cam = Camera(0, robottype = 'arlo', useCaptureThread = True)
+cam = cam_imp.CamObject()
 sleep(1)
 
 #Defining the aruco dict
