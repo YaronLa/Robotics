@@ -213,6 +213,8 @@ def self_locate(cam, init_poses = []):
             # Detect objects
             #objectIDs, dists, angles = cam.detect_aruco_objects(colour)
             _ , temp_frame = cam.read()
+            arucoDict = cv2.aruco.Dictionary_get(cv2.aruco.DICT_6X6_250)
+            dict = cv2.aruco.getPredefinedDictionary(cv2.aruco.DICT_6X6_250)
             objectIDs, dists, angles = cv2.aruco.detectMarkers(temp_frame, dict)
             if not isinstance(objectIDs, type(None)):
                 count += 1
