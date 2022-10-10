@@ -231,8 +231,8 @@ def self_locate(cam, init_poses = []):
                 sigma_theta = 0.3
                 sum_of_weights = 0
                 #print(objectIDs[0])
-                box_x = landmarks[objectIDs[0]][0] #x koordinat for kassen der er observeret
-                box_y = landmarks[objectIDs[0]][1]#y koordinat for kassen der er observeret
+                box_x = landmarks[int(objectIDs[0])][0] #x koordinat for kassen der er observeret
+                box_y = landmarks[int(objectIDs[0])][1]#y koordinat for kassen der er observeret
                 dist = dists[0] #distance kassen er observeret fra
                 box_theta = angles[0]
 
