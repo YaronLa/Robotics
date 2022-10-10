@@ -135,7 +135,7 @@ def resample_particles(particles, weights):
 
 
 # Main program #
-def self_locate(init_poses = []):
+def self_locate(cam, init_poses = []):
     
     try:
         if showGUI:
@@ -170,7 +170,8 @@ def self_locate(init_poses = []):
     
         # Draw map
         draw_world(est_pose, particles, world)
-    
+        
+        """
         print("Opening and initializing camera")
         if camera.isRunningOnArlo():
             cam = camera.Camera(0, 'arlo', useCaptureThread = True)
@@ -195,7 +196,7 @@ def self_locate(init_poses = []):
                     angular_velocity += 0.2
                 elif action == ord('d'): # Right
                     angular_velocity -= 0.2
-    
+         """
     
     
             
