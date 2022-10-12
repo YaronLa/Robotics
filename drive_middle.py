@@ -6,7 +6,7 @@ import CamObjectThread as cam_imp
 import Self_localization_slow as sls
 from time import sleep
 from camera import Camera
-
+from particle import move_particle
 arlo = robot.Robot()
 
 #Initilize pipline for cam and spawn cam in seperat thread
@@ -42,12 +42,12 @@ def find_pose():
         cv2.aruco.drawDetectedMarkers(frameReference,corners)
         
         #Scanning for object
-        if not corners:
+        if not corners or ids in id_lst:
             actions.scan_for_object(cam, dict)
             sleep(1)
         
         # Checking if any object found
-        if corners:  
+        if corners:
             
             # Checking if the object found is the first obejct found
             if len(id_lst) == 0:
@@ -57,7 +57,7 @@ def find_pose():
                     id_lst.append(ids)
                     
                     #Calling selflocate to get some poses ready for when second object is found
-                    _, _, _, parties = sls.self_locate(cam, frameReference)
+                    _, _, _, parties = sls.self_locate(cam)
                     # Saving poses
                     parties_lst.append(parties)
                     
@@ -70,7 +70,7 @@ def find_pose():
                     id_lst.append(ids)
                     
                     #Using poses from when we saw the object before. Now we should have a good pose.
-                    theta, x, y, parties = sls.self_locate(cam, frameReference, parties_lst[0])  
+                    theta, x, y, parties = sls.self_locate(cam, parties_lst[0])  
                     pose = [x, y, theta]
     
     # Return the best estimated pose
@@ -86,38 +86,13 @@ theta_corr, dist = driving_strat([150,0], pose)
 sign, theta = np.sign(theta_corr), np.abs(theta_corr)
 
 #Make the robot turn towards middle
-actions.turn(theta, sign)
-
+actions.turn_degrees(theta, sign)
 #Make the robot drive into the middle. The unit for dist should be in mm. Think the output for driving strat might be in meters.. :/
 actions.forward_mm(dist)
 
 #Make sure to stop the robot.
 sleep(1)
 arlo.stop()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
