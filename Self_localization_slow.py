@@ -17,6 +17,7 @@ from timeit import default_timer as timer
 #from Sampling_Importance_Resampling import calcWeight, resample
 import sys
 from camera import Camera
+from time import sleep
 
 
 # Flags
@@ -133,9 +134,21 @@ def initialize_particles(num_particles):
 def resample_particles(particles, weights):
     return random.choices(particles, weights, k = len(particles))
 
+def draw_aruco_objects(ids, img, corners, intrinsic_matrix, distortion_coeffs, rvecs, tvecs, arucoMarkerLength):
+    """Draws detected objects and their orientations on the image given in img."""
+    if not isinstance(ids, type(None)):
+        outimg = cv2.aruco.drawDetectedMarkers(img, corners, ids)
+        for i in range(ids.shape[0]):
+            outimg = cv2.drawFrameAxes(outimg, intrinsic_matrix, distortion_coeffs,
+                                       rvecs[i], tvecs[i], arucoMarkerLength)
+    else:
+        outimg = img
+
+    return outimg
+
 
 # Main program #
-def self_locate(cam, init_poses = []):
+def self_locate(cam, frameReference, init_poses = []):
     
     try:
         if showGUI:
@@ -163,7 +176,7 @@ def self_locate(cam, init_poses = []):
         angular_velocity = 2.33 # radians/sec
     
         # Initialize the robot (XXX: You do this)
-        arlo = robot.Robot()
+        #arlo = robot.Robot()
         
         # Allocate space for world map
         world = np.zeros((500,500,3), dtype=np.uint8)
@@ -212,11 +225,38 @@ def self_locate(cam, init_poses = []):
             
             # Detect objects
             #objectIDs, dists, angles = cam.detect_aruco_objects(colour)
-            _ , temp_frame = cam.read()
+            sleep(1)
+            _ , frameReference = cam.read()
             arucoDict = cv2.aruco.Dictionary_get(cv2.aruco.DICT_6X6_250)
             dict = cv2.aruco.getPredefinedDictionary(cv2.aruco.DICT_6X6_250)
-            objectIDs22, objectIDs, angles = cv2.aruco.detectMarkers(temp_frame, dict)
-            objectIDs = objectIDs.reshape((self.ids.shape[0],))
+            camera_matrix = np.array([ 1120, 0.0,1280/2, 0, 1120, 720/2, 0, 0, 1]).reshape(3,3)
+            dist_coeffs = np.array([0.0, 0.0, 0.0, 0.0, 0.0]).reshape(5,1)
+            markerLength = 150
+            
+            
+            corners, objectIDs, rejectedImgPoints = cv2.aruco.detectMarkers(frameReference, dict)
+            rvecs, tvecs, _objPoints = cv2.aruco.estimatePoseSingleMarkers(corners, markerLength, camera_matrix, dist_coeffs)
+            print(tvecs, type(tvecs))
+            dists = np.linalg.norm(tvecs, axis=len(tvecs.shape) - 1) * 100
+            dists = dists.reshape((dists.shape[0],))
+            
+            angles = np.zeros(dists.shape, dtype=dists.dtype)
+            for i in range(dists.shape[0]):
+                tobj = tvecs[i] * 100 / dists[i]
+                zaxis = np.zeros(tobj.shape, dtype=tobj.dtype)
+                zaxis[0,-1] = 1
+                xaxis = np.zeros(tobj.shape, dtype=tobj.dtype)
+                xaxis[0,0] = 1
+
+                # We want the horizontal angle so project tobjt onto the x-z plane
+                tobj_xz = tobj
+                tobj_xz[0,1] = 0
+                # Should the sign be clockwise or counter-clockwise (left or right)?
+                # In this version it is positive to the left as seen from the camera.
+                direction = -1*np.sign(tobj_xz[0,0])  # The same as np.sign(np.dot(tobj, xaxis.T))
+                angles[i] = direction * np.arccos(np.dot(tobj_xz, zaxis.T))
+            
+            objectIDs = objectIDs.reshape((objectIDs.shape[0],))
             
             if not isinstance(objectIDs, type(None)):
                 count += 1
@@ -269,8 +309,9 @@ def self_locate(cam, init_poses = []):
                     probabilities.append(elm.getWeight()/sum_of_weights)
                     elm.setWeight(elm.getWeight()/sum_of_weights)
                     #print("probability: ", elm.getWeight())
-                cam.draw_aruco_objects(colour)
-                
+                #cam.draw_aruco_objects(colour)
+                draw_aruco_objects(objectIDs, frameReference, corners, camera_matrix, dist_coeffs, rvecs, tvecs, markerLength)
+
                 # Resampling
                 # XXX: You do thisQQQQQQ
                 print("resampling....")
@@ -279,7 +320,7 @@ def self_locate(cam, init_poses = []):
 
                 
                 #adding noise
-                #particles = particle.add_uncertainty(particles, 0.1, 0.1)
+                particle.add_uncertainty(particles, 0.1, 0.1)
 
                 # Draw detected objects
             else:
@@ -296,7 +337,7 @@ def self_locate(cam, init_poses = []):
                 draw_world(est_pose, particles, world)
         
                 # Show frame
-                cv2.imshow(WIN_RF1, colour)
+                cv2.imshow(WIN_RF1, frameReference)
     
                 # Show world
                 cv2.imshow(WIN_World, world)
